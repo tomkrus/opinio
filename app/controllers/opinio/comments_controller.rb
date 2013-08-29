@@ -29,7 +29,6 @@ class Opinio::CommentsController < ApplicationController
   def destroy
     @comment = Opinio.model_name.constantize.find(params[:id])
     @comment.destroy
-    flash[:notice] = I18n.translate('opinio.messages.comment_destroyed', :default => "Comment removed successfully")
   end
   
   private
