@@ -28,20 +28,8 @@ class Opinio::CommentsController < ApplicationController
 
   def destroy
     @comment = Opinio.model_name.constantize.find(params[:id])
-
-    if can_destroy_opinio?(@comment)
-      @comment.destroy
-      set_flash(:notice, t('opinio.messages.comment_destroyed'))
-    else
-      #flash[:error]  = I18n.translate('opinio.comment.not_permitted', :default => "Not permitted")
-      logger.warn "user #{send(Opinio.current_user_method)} tried to remove a comment from another user #{@comment.owner.id}"
-      render :text => "unauthorized", :status => 401 and return
-    end
-
-    respond_to do |format|
-      format.js
-      format.html { redirect_to( opinio_after_destroy_path(@comment) ) }
-    end
+    @comment.destroy
+    flash[:notice] = I18n.translate('opinio.comment.destroyed', :default => "Comment removed successfully")
   end
   
   private
